@@ -1,12 +1,23 @@
+import { HttpService } from '@nestjs/axios';
 import { Controller, Get } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
+import { AxiosError } from 'axios';
+import { catchError, firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Controller('test')
 export class TestController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly httpService: HttpService) {}
 
-  @Get()
-  test() {
-    return this.userService.getHelloUser("abc");
+  @Get('axios')
+  async findAll(): Promise<any> {
+    const { data } = await firstValueFrom(
+      this.httpService.get('https://jsonplaceholder.typicode.com/posts').pipe(
+        catchError((error: AxiosError) => {
+          console.log(error);
+          throw 'An error happened!';
+        }),
+      ),
+    );
+    console.log(data);
+    return data;
   }
 }
