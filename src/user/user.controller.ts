@@ -9,11 +9,14 @@ import {
   Query,
   SetMetadata,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { Roles } from 'src/roles.decorator';
 import { ConfigService } from '@nestjs/config';
+import { LoggingInterceptor } from '../intercepter/logging.intercepter';
+import { ResponseInterceptor } from 'src/intercepter/response.intercepter';
 
 @Controller('user')
 export class UserController {
@@ -22,16 +25,24 @@ export class UserController {
     private readonly configService: ConfigService,
   ) {}
 
-  @Post()
-  @Roles('admin')
-  @UseGuards(RolesGuard) // 해당 메서드에만 가드 연결
-  @UsePipes(ValidationPipe)
-  getHelloUser(@Body() user: UserDto): string {
-    const dbUser = this.configService.get<string>('DB_USERNAME');
-    console.log(dbUser);
-    console.log(process.env.NODE_ENV);
-    console.log(`.${process.env.NODE_ENV}.env`);
+  // @Post()
+  // @Roles('admin')
+  // @UseGuards(RolesGuard) // 해당 메서드에만 가드 연결
+  // @UsePipes(ValidationPipe)
+  // getHelloUser(@Body() user: UserDto): string {
+  //   const dbUser = this.configService.get<string>('DB_USERNAME');
+  //   console.log(dbUser);
+  //   console.log(process.env.NODE_ENV);
+  //   console.log(`.${process.env.NODE_ENV}.env`);
 
-    return this.userService.getHelloUser(user.name);
+  //   return this.userService.getHelloUser(user.name);
+  // }
+
+  @Get()
+  // @UseInterceptors(LoggingInterceptor)
+  @UseInterceptors(ResponseInterceptor)
+  getHelloUser(): string {
+    console.log('UserController getHelloUser()');
+    return this.userService.getHelloUser('nestjs');
   }
 }
