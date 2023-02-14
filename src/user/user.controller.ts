@@ -14,16 +14,12 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { Roles } from 'src/roles.decorator';
-import { ConfigService } from '@nestjs/config';
 import { LoggingInterceptor } from '../intercepter/logging.intercepter';
 import { ResponseInterceptor } from 'src/intercepter/response.intercepter';
 
 @Controller('user')
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   // @Post()
   // @Roles('admin')
