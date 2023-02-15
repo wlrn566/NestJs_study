@@ -9,7 +9,6 @@ import { UserService } from 'src/user/user.service';
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly authService: AuthService,
     private readonly userService: UserService,
   ) {}
 

@@ -3,23 +3,25 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TestModule } from './test/test.module';
-import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigurationModule } from './config/config.module';
 
 @Module({
   imports: [
     UserModule,
     TestModule,
-    AuthModule,
+    ConfigurationModule,
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      entities: ['dist/**/**.entity{.ts,.js}'],
+      type: 'mariadb',
       host: process.env.DB_HOST,
       port: parseInt(process.env.DB_PORT),
-      username: process.env.DB_USER,
+      username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [],
-      synchronize: false,
+      synchronize: true,
+      logging: true,
     }),
   ],
   controllers: [AppController],
