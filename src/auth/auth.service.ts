@@ -9,21 +9,18 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(
-    username: string,
-    pass: string
-  ): Promise<any> {
-    console.log('AuthService validateUser()');
-    const user = await this.userService.findOne(username);
+  async validateUser(username: string, pass: string): Promise<any> {
+    // console.log('AuthService validateUser()');
+    // const user = await this.userService.findOne(username);
 
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-      const accessToken = await this.jwtService.sign(result); // 토큰 발생
+    // if (user && user.password === pass) {
+    //   const { password, ...result } = user;
+    //   const accessToken = await this.jwtService.sign(result); // 토큰 발생
 
-      result['token'] = accessToken; // 토큰 추가
+    //   result['token'] = accessToken; // 토큰 추가
 
-      return result;
-    }
+    //   return result;
+    // }
     return null;
   }
 

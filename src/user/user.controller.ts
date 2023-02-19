@@ -16,6 +16,7 @@ import {
 import { Roles } from 'src/roles.decorator';
 import { LoggingInterceptor } from '../intercepter/logging.intercepter';
 import { ResponseInterceptor } from 'src/intercepter/response.intercepter';
+import { User } from './user.entity';
 
 @Controller('user')
 export class UserController {
@@ -33,6 +34,12 @@ export class UserController {
 
   //   return this.userService.getHelloUser(user.name);
   // }
+
+  @Post()
+  create(@Body() userDto: UserDto): Promise<User> {
+    console.log(userDto);
+    return this.userService.create(userDto.name, userDto.age);
+  }
 
   @Get()
   // @UseInterceptors(LoggingInterceptor)
